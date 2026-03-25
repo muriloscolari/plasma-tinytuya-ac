@@ -34,5 +34,5 @@ plasmashell --replace &; disown
 ```
 
 ### 3. Ativar o Widget
-Clique com o **botão direito** na sua barra de tarefas/bandeja do sistema, vá em **Configurar Bandeja do Sistema...**, procure por **"Ar Condicionado"** na aba **Entradas Extras** e mude para **Sempre visível** ou **Ativado**.
+Clique com o **botão direito** na sua barra de tarefas/bandeja do sistema, vá em **Adicionar ou gerenciar Widgets**, procure por **"Ar Condicionado"** na aba **Entradas Extras** e arraste para a barra de tarefas.
 
