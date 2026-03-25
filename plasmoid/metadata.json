@@ -1,0 +1,17 @@
+{
+    "KPlugin": {
+        "Authors": [{"Email": "", "Name": "Murilo"}],
+        "Category": "Utilities",
+        "Description": "Controle do Ar Condicionado via TinyTuya",
+        "Icon": "icon",
+        "Id": "br.local.arcontrol",
+        "License": "GPL-2.0-or-later",
+        "Name": "Ar Condicionado",
+        "ServiceTypes": ["Plasma/Applet"],
+        "Version": "1.0",
+        "Website": "http://localhost:5000"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-MainScript": "ui/main.qml",
+    "X-Plasma-NotificationArea": "true"
+}
