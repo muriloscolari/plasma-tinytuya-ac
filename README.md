@@ -36,11 +36,3 @@ plasmashell --replace &; disown
 ### 3. Ativar o Widget
 Clique com o **botão direito** na sua barra de tarefas/bandeja do sistema, vá em **Configurar Bandeja do Sistema...**, procure por **"Ar Condicionado"** na aba **Entradas Extras** e mude para **Sempre visível** ou **Ativado**.
 
-## Controle de Versão (Git)
-Este projeto já está configurado com `git`. Para enviá-lo para o GitHub crie um repositório lá e em seguida rode:
-
-```bash
-git branch -M main
-git remote add origin git@github.com:seu-usuario/seu-repositorio.git
-git push -u origin main
-```
