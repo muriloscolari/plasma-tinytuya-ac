@@ -9,5 +9,5 @@ if not test -d venv
     exit 1
 end
 
-echo "Iniciando backend do ar condicionado em http://localhost:5000 ..."
+echo "Iniciando backend do ar condicionado em http://localhost:8456 ..."
 venv/bin/python app.py

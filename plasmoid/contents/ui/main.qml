@@ -22,7 +22,7 @@ PlasmoidItem {
     property bool   lightOn:     false
     property bool   sleepOn:     false
 
-    readonly property string apiBase: "http://localhost:5000"
+    readonly property string apiBase: "http://localhost:8456"
 
     // ── Startup & polling ────────────────────────────────────────────────────
     Component.onCompleted: fetchStatus()

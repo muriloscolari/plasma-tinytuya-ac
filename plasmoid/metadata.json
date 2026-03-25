@@ -9,7 +9,7 @@
         "Name": "Ar Condicionado",
         "ServiceTypes": ["Plasma/Applet"],
         "Version": "1.0",
-        "Website": "http://localhost:5000"
+        "Website": "http://localhost:8456"
     },
     "X-Plasma-API-Minimum-Version": "6.0",
     "X-Plasma-MainScript": "ui/main.qml",
