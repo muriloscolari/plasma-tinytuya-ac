@@ -34,7 +34,7 @@ plasmashell --replace &; disown
 ```
 
 ### 3. Ativar o Widget
-Clique com o **botão direito** na sua barra de tarefas/bandeja do sistema, vá em **Configurar Bandeja do Sistema...**, procure por **"Ar Condicionado"** na aba **Entradas Extras** e mude para **Sempre visível** ou **Ativado**.
+Clique com o **botão direito** na sua barra de tarefas/bandeja do sistema, vá em **Adicionar ou gerenciar Widgets**, procure por **"Ar Condicionado"** na aba **Widgets** e arraste para a barra de tarefas.
 
 ### 4. Rodar o Backend como Serviço (Systemd Daemon)
 Para que a API inicie automaticamente com seu sistema sem precisar deixar um terminal aberto, você pode criar um serviço de usuário no `systemd`.
