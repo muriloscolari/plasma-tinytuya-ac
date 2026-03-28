@@ -13,6 +13,12 @@ PlasmoidItem {
 
     preferredRepresentation: Plasmoid.compactRepresentation
 
+    onExpandedChanged: {
+        if (expanded) {
+            root.fetchStatus()
+        }
+    }
+
     // ── State ─────────────────────────────────────────────────────────────────
     property bool   acOn:        false
     property int    currentTemp: 24
