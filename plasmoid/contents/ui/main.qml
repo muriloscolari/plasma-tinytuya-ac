@@ -29,14 +29,21 @@ PlasmoidItem {
     property bool   sleepOn:     false
 
     readonly property string apiBase: "http://localhost:8456"
+    property bool   backendOnline: false
 
-    // ── Startup & polling ────────────────────────────────────────────────────
-    Component.onCompleted: fetchStatus()
+    // ── Startup & polling ──────────────────────────────────────────────────
+    // Aguarda 3s antes da 1a tentativa (backend do systemd pode ainda estar subindo)
+    Component.onCompleted: Qt.callLater(function() {
+        pollTimer.restart()
+    })
 
     Timer {
-        interval: 30000
+        id: pollTimer
+        // Tenta a cada 10s se offline, 30s se estiver ok
+        interval: root.backendOnline ? 30000 : 10000
         running: true
         repeat: true
+        triggeredOnStart: true
         onTriggered: fetchStatus()
     }
 
@@ -287,15 +294,18 @@ PlasmoidItem {
         }
     }
 
-    // ── HTTP helpers ─────────────────────────────────────────────────────────
+    // ── HTTP helpers ────────────────────────────────────────────────────
     function fetchStatus() {
         var xhr = new XMLHttpRequest()
         xhr.open("GET", root.apiBase + "/api/status")
+        xhr.timeout = 5000
         xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
+            if (xhr.readyState !== 4) return
+            if (xhr.status === 200) {
                 try {
                     var resp = JSON.parse(xhr.responseText)
                     if (resp.ok) {
+                        root.backendOnline = true
                         var s = resp.status
                         root.acOn        = s.switch
                         root.setTemp     = Math.round(s.temp_set / 10)
@@ -305,9 +315,15 @@ PlasmoidItem {
                         root.lightOn     = s.light
                         root.sleepOn     = s.sleep
                     }
-                } catch(e) {}
+                } catch(e) {
+                    root.backendOnline = false
+                }
+            } else {
+                root.backendOnline = false
             }
         }
+        xhr.ontimeout = function() { root.backendOnline = false }
+        xhr.onerror   = function() { root.backendOnline = false }
         xhr.send()
     }
 
