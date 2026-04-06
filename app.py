@@ -41,16 +41,18 @@ DP_MAP = {
 # Mapeamento reverso de DPS para nomes legíveis
 DP_NAMES = {v: k for k, v in DP_MAP.items()}
 
-# Inicializa o dispositivo com IP real
-d = tinytuya.Device(DEVICE_ID, DEVICE_IP, LOCAL_KEY)
-d.set_version(3.3)
-d.set_socketTimeout(5)
+# Cria o dispositivo sob demanda para evitar estado obsoleto após perda de rede
+def get_device():
+    dev = tinytuya.Device(DEVICE_ID, DEVICE_IP, LOCAL_KEY)
+    dev.set_version(3.3)
+    dev.set_socketTimeout(5)
+    return dev
 
 # ─── Endpoint de status estruturado para o widget ──────────────────────────────
 @app.route('/api/status')
 def api_status():
     try:
-        raw = d.status()
+        raw = get_device().status()
         dps = raw.get('dps', {})
 
         # Modos possíveis: cold, hot, wind, auto
@@ -84,23 +86,24 @@ def api_control():
     value  = data.get('value')
 
     try:
+        dev = get_device()
         if action == 'power_on':
-            d.set_value(int(DP_MAP['switch']), True)
+            dev.set_value(int(DP_MAP['switch']), True)
         elif action == 'power_off':
-            d.set_value(int(DP_MAP['switch']), False)
+            dev.set_value(int(DP_MAP['switch']), False)
         elif action == 'set_temp':
             # value é temperatura em graus inteiros, multiplicamos por 10
             temp = int(float(value) * 10)
-            d.set_value(int(DP_MAP['temp_set']), temp)
+            dev.set_value(int(DP_MAP['temp_set']), temp)
         elif action == 'set_mode':
             # value: 'cold' | 'hot' | 'wind' | 'auto'
-            d.set_value(int(DP_MAP['mode']), value)
+            dev.set_value(int(DP_MAP['mode']), value)
         elif action == 'toggle_eco':
-            d.set_value(int(DP_MAP['mode_eco']), bool(value))
+            dev.set_value(int(DP_MAP['mode_eco']), bool(value))
         elif action == 'toggle_light':
-            d.set_value(int(DP_MAP['light']), bool(value))
+            dev.set_value(int(DP_MAP['light']), bool(value))
         elif action == 'toggle_sleep':
-            d.set_value(int(DP_MAP['sleep']), bool(value))
+            dev.set_value(int(DP_MAP['sleep']), bool(value))
         else:
             return jsonify({"ok": False, "error": f"Ação desconhecida: {action}"}), 400
 
@@ -123,7 +126,7 @@ def control():
         return jsonify({"status": "error", "message": "dp ou code inválido"}), 400
 
     try:
-        result = d.set_value(dp, value)
+        result = get_device().set_value(dp, value)
         print(f"Enviado dp={dp} value={value} -> resposta: {result}")
         return jsonify({"status": "success", "dp": dp, "value": value})
     except Exception as e:
@@ -132,7 +135,7 @@ def control():
 @app.route('/status')
 def status():
     try:
-        data = d.status()
+        data = get_device().status()
         return jsonify(data.get('dps', {}))
     except Exception as e:
         print(f"Erro ao ler status: {e}")

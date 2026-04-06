@@ -32,18 +32,25 @@ PlasmoidItem {
     property bool   backendOnline: false
 
     // ── Startup & polling ──────────────────────────────────────────────────
-    // Aguarda 3s antes da 1a tentativa (backend do systemd pode ainda estar subindo)
-    Component.onCompleted: Qt.callLater(function() {
-        pollTimer.restart()
-    })
+    // Aguarda 5s antes da 1a tentativa (backend do systemd pode ainda estar subindo)
+    Timer {
+        id: startupDelayTimer
+        interval: 5000
+        running: true
+        repeat: false
+        onTriggered: {
+            root.fetchStatus()
+            pollTimer.start()
+        }
+    }
 
     Timer {
         id: pollTimer
         // Tenta a cada 10s se offline, 30s se estiver ok
         interval: root.backendOnline ? 30000 : 10000
-        running: true
+        running: false
         repeat: true
-        triggeredOnStart: true
+        triggeredOnStart: false
         onTriggered: fetchStatus()
     }
 
