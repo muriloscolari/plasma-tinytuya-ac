@@ -55,8 +55,8 @@ Para que a API inicie automaticamente com seu sistema sem precisar deixar um ter
    Description=Ar Condicionado API Backend
    
    [Service]
-   WorkingDirectory=%h/Documentos/widgetControle
-   ExecStart=/usr/bin/fish %h/Documentos/widgetControle/start.fish
+   WorkingDirectory=%h/Documentos/plasma-tinytuya-ac
+   ExecStart=/usr/bin/fish %h/Documentos/plasma-tinytuya-ac/start.fish
    Restart=always
    
    [Install]

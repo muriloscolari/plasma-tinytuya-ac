@@ -11,6 +11,7 @@
         "Version": "1.0",
         "Website": "http://localhost:8456"
     },
+    "KPackageStructure": "Plasma/Applet",
     "X-Plasma-API-Minimum-Version": "6.0",
     "X-Plasma-MainScript": "ui/main.qml",
     "X-Plasma-NotificationArea": "true"
